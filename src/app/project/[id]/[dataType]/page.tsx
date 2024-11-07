@@ -3,6 +3,8 @@ import ProjectNavigation from '@/components/ProjectNavigation/ProjectNavigation'
 import { IProjectNav } from '@/utils/types'
 import { Eye, Mouse, Footprints } from 'lucide-react'
 import Analytics from '@/components/Analytics/Analytics'
+import Project from '../../../../../models/Projects'
+import db from '@/utils/db'
 
 const nav = {
   visits: {
@@ -27,9 +29,11 @@ export default async function ProjectPage({
 }: {
   params: { id: string; dataType: 'visits' | 'events' | 'navigation' }
 }) {
+  await db.connect()
+  const project = await Project.findOne({ _id: id })
   return (
     <>
-      <ProjectData id={id} />
+      <ProjectData project={project} />
       <ProjectNavigation nav={nav} projectId={id} />
       <Analytics dataType={dataType} />
     </>

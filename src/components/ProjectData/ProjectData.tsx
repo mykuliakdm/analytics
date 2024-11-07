@@ -2,11 +2,9 @@ import { SquareArrowOutUpRight } from 'lucide-react'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
-import Project from '../../../models/Projects'
+import { IProject } from '@/utils/types'
 
-const ProjectData = async ({ id }: { id: string }) => {
-  const project = await Project.findOne({ _id: id })
-
+const ProjectData = ({ project }: { project: IProject }) => {
   return (
     <>
       <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl mb-8">
