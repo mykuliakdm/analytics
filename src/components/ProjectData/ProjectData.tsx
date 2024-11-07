@@ -1,13 +1,11 @@
-import axios from 'axios'
 import { SquareArrowOutUpRight } from 'lucide-react'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
+import Project from '../../../models/Projects'
 
 const ProjectData = async ({ id }: { id: string }) => {
-  const {
-    data: { project },
-  } = await axios.get(`${process.env.NEXTAUTH_URL}/api/project/${id}`)
+  const project = await Project.findOne({ _id: id })
 
   return (
     <>
