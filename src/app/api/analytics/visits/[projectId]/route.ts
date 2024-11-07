@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { startOfDay, endOfDay } from 'date-fns'
+import { startOfDay, endOfDay, addDays } from 'date-fns'
 import { getError } from '@/utils/getError'
 import db from '@/utils/db'
 import { PAGINATION } from '@/config/constants'
@@ -31,11 +31,17 @@ export async function GET(
   if (from || to) {
     filters.createdAt = {}
     if (from) {
-      filters.createdAt = { ...filters.createdAt, $gte: startOfDay(from) }
+      filters.createdAt = {
+        ...filters.createdAt,
+        $gte: startOfDay(addDays(from, 1)),
+      }
     }
 
     if (to) {
-      filters.createdAt = { ...filters.createdAt, $lte: endOfDay(to) }
+      filters.createdAt = {
+        ...filters.createdAt,
+        $lte: endOfDay(addDays(to, 1)),
+      }
     }
   }
 
