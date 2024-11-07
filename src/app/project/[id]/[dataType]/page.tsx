@@ -22,7 +22,7 @@ const nav = {
   },
 } as { [key: string]: IProjectNav }
 
-export default async function VisitsPage({
+export default async function ProjectPage({
   params: { id, dataType },
 }: {
   params: { id: string; dataType: 'visits' | 'events' | 'navigation' }

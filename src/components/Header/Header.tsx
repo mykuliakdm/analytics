@@ -51,14 +51,12 @@ const Header = () => {
               <div className="relative flex items-center">
                 {user && status === 'authenticated' ? (
                   <div className="inline-flex items-center gap-x-2">
-                    {user.id ? (
-                      <Button asChild variant="ghost">
-                        <Link href={`/projects`}>
-                          <FolderGit2 className="h-5 w-5" />
-                          Projects
-                        </Link>
-                      </Button>
-                    ) : null}
+                    <Button asChild variant="ghost">
+                      <Link href={`/projects`}>
+                        <FolderGit2 className="h-5 w-5" />
+                        Projects
+                      </Link>
+                    </Button>
 
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>

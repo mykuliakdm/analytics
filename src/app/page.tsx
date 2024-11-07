@@ -1,5 +1,6 @@
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
+import Image from 'next/image'
 
 export default async function Home() {
   return (
@@ -18,9 +19,11 @@ export default async function Home() {
         </Button>
       </div>
       <div className="hidden lg:mt-0 lg:col-span-5 lg:flex">
-        <img
-          src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/hero/phone-mockup.png"
-          alt="mockup"
+        <Image
+          src="/hero.jpg"
+          alt="Welcome to Your Trusted Analytics Hub"
+          width={500}
+          height={300}
         />
       </div>
     </div>
