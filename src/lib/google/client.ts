@@ -1,7 +1,7 @@
 import { BetaAnalyticsDataClient } from '@google-analytics/data'
 
 const credential = JSON.parse(
-  Buffer.from(process.env.GOOGLE_APPLICATION_CREDENTIALS, 'base64').toString(),
+  Buffer.from(process.env.GOOGLE_APPLICATION_CREDENTIALS!, 'base64').toString(),
 )
 export const analyticsDataClient = new BetaAnalyticsDataClient({
   projectId: credential.project_id,
