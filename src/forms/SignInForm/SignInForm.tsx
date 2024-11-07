@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { signIn, useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { SubmitHandler, useForm } from 'react-hook-form'
@@ -10,6 +10,7 @@ import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import { Label } from '@/components/ui/label'
+import { Loader2 } from 'lucide-react'
 
 type Inputs = {
   email: string
@@ -19,6 +20,8 @@ type Inputs = {
 const SignInForm = () => {
   const router = useRouter()
   const { data: session } = useSession()
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+
   const {
     register,
     handleSubmit,
@@ -34,6 +37,7 @@ const SignInForm = () => {
   }, [router, session])
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
+    setIsLoading(true)
     try {
       await signIn('credentials', {
         email: data.email,
@@ -42,6 +46,8 @@ const SignInForm = () => {
       })
     } catch (error) {
       console.log('Error on sign in', error)
+    } finally {
+      setIsLoading(false)
     }
   }
   // TODO: detect fetch error
@@ -75,7 +81,10 @@ const SignInForm = () => {
             </p>
           ) : null}
         </div>
-        <Button type="submit">Sign in</Button>
+        <Button type="submit" disabled={isLoading}>
+          {isLoading ? <Loader2 className="animate-spin" /> : null}
+          Sign in
+        </Button>
       </form>
       <p className="mt-10 text-center text-sm text-gray-500">
         Don’t you have an account?{' '}

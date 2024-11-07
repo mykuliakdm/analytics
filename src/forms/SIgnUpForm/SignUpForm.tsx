@@ -8,6 +8,8 @@ import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import { Label } from '@/components/ui/label'
+import { useState } from 'react'
+import { Loader2 } from 'lucide-react'
 
 type Inputs = {
   email: string
@@ -16,6 +18,8 @@ type Inputs = {
 }
 
 const SignUpForm = () => {
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+
   const {
     register,
     handleSubmit,
@@ -25,12 +29,15 @@ const SignUpForm = () => {
   })
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
+    setIsLoading(true)
     try {
       await axios.post('/api/registration', { ...data }).then((response) => {
         console.log('response', response)
       })
     } catch (error) {
       console.error(`Error on registration - ${error}`)
+    } finally {
+      setIsLoading(false)
     }
   }
   // TODO: detect fetch error
@@ -74,7 +81,9 @@ const SignUpForm = () => {
             </p>
           ) : null}
         </div>
-        <Button type="submit">Sign up</Button>
+        <Button type="submit" disabled={isLoading}>
+          {isLoading ? <Loader2 className="animate-spin" /> : null}Sign up
+        </Button>
       </form>
       <p className="mt-10 text-center text-sm text-gray-500">
         Already have an account?{' '}

@@ -1,7 +1,7 @@
 'use client'
 
-// import { useEffect } from 'react'
-// import { usePathname, useRouter } from 'next/navigation'
+import { useEffect } from 'react'
+import { usePathname, useRouter } from 'next/navigation'
 import { signOut, useSession } from 'next-auth/react'
 import Link from 'next/link'
 import Image from 'next/image'
@@ -20,16 +20,16 @@ import {
 import styles from './Header.module.scss'
 
 const Header = () => {
-  // const router = useRouter()
-  // const pathName = usePathname()
+  const router = useRouter()
+  const pathName = usePathname()
   const { data: session, status } = useSession()
   const user = session?.user || null
 
-  // useEffect(() => {
-  //   if (!user && !['/sign-in', '/sign-up'].includes(pathName)) {
-  //     router.replace('/sign-in')
-  //   }
-  // }, [user])
+  useEffect(() => {
+    if (!user && !['/', '/sign-in', '/sign-up'].includes(pathName)) {
+      router.replace('/sign-in')
+    }
+  }, [user])
 
   return (
     <header>
