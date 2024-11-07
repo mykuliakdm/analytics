@@ -1,7 +1,7 @@
 'use client'
 
 import { useCallback } from 'react'
-import { Eraser, RefreshCw } from 'lucide-react'
+import { Eraser, Loader2, RefreshCw } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -14,15 +14,20 @@ import {
 } from '@/components/ui/dialog'
 import { getAPI } from '@/utils/fetching/getAPI'
 import { useParams } from 'next/navigation'
-// import { BlobProvider } from '@react-pdf/renderer'
-// import AnalyticsPDF from '@/components/AnalyticsPDF/AnalyticsPDF'
 
 type TableActionsProps = {
   onReload: () => void
   isLoading: boolean
+  onExport: () => void
+  isExporting: boolean
 }
 
-const TableActions = ({ onReload, isLoading }: TableActionsProps) => {
+const TableActions = ({
+  onReload,
+  isLoading,
+  onExport,
+  isExporting,
+}: TableActionsProps) => {
   const { id, dataType } = useParams() as {
     id: string
     dataType: 'visits' | 'events' | 'navigation'
@@ -50,14 +55,10 @@ const TableActions = ({ onReload, isLoading }: TableActionsProps) => {
         <RefreshCw className={isLoading ? 'animate-spin' : ''} />
         Refresh
       </Button>
-      {/*TODO: create export function*/}
-      {/*<BlobProvider document={<AnalyticsPDF dataType={dataType} />}>*/}
-      {/*  {({ url }) => (*/}
-      {/*    <a href={url!} rel="noopener noreferrer" target="_blank">*/}
-      <Button variant="outline">Export PDF</Button>
-      {/*    </a>*/}
-      {/*  )}*/}
-      {/*</BlobProvider>*/}
+      <Button variant="outline" onClick={onExport} disabled={isExporting}>
+        {isExporting ? <Loader2 className="animate-spin" /> : null}
+        Export PDF
+      </Button>
       <Dialog>
         <DialogTrigger asChild>
           <Button variant="destructive">

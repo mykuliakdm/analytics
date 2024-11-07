@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef, useCallback } from 'react'
 import dynamic from 'next/dynamic'
 import { useParams, usePathname, useSearchParams } from 'next/navigation'
 import { Skeleton } from '@/components/ui/skeleton'
@@ -15,6 +15,9 @@ import { DateRange } from 'react-day-picker'
 import VisitsTable from '@/components/tables/VisitsTable/VisitsTable'
 import EventsTable from '@/components/tables/EventsTable/EventsTable'
 import NavigationTable from '@/components/tables/NavigationTable/NavigationTable'
+import generatePDF, { Resolution, Margin, Options } from 'react-to-pdf'
+import { format } from 'date-fns'
+
 const CountByDate = dynamic(
   async () => import('@/components/charts/CountByDate/CountByDate'),
   { ssr: false },
@@ -22,6 +25,29 @@ const CountByDate = dynamic(
 
 type AnalyticsProps = {
   dataType: 'visits' | 'events' | 'navigation'
+}
+
+const options: Options = {
+  filename: `analytics-${format(new Date(), 'dd/MM/yyyy')}.pdf`,
+  method: 'open',
+  resolution: Resolution.HIGH,
+  page: {
+    margin: Margin.MEDIUM,
+    format: 'A4',
+    orientation: 'portrait',
+  },
+  canvas: {
+    mimeType: 'image/jpeg',
+    qualityRatio: 1,
+  },
+  overrides: {
+    pdf: {
+      compress: true,
+    },
+    canvas: {
+      useCORS: true,
+    },
+  },
 }
 
 const Analytics = ({ dataType }: AnalyticsProps) => {
@@ -35,6 +61,9 @@ const Analytics = ({ dataType }: AnalyticsProps) => {
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const [reload, setReload] = useState<boolean>(false)
   const [dateRange, setDateRange] = useState<DateRange | undefined>(undefined)
+  const [isExporting, setIsExporting] = useState<boolean>(false)
+
+  const targetRef = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {
     let isMounted = true
@@ -54,7 +83,7 @@ const Analytics = ({ dataType }: AnalyticsProps) => {
           setMeta(meta)
         }
       } catch (error) {
-        console.error('Failed to fetch data:', error)
+        console.error('Failed to fetch data: ', error)
       } finally {
         if (isMounted) {
           setIsLoading(false)
@@ -85,48 +114,62 @@ const Analytics = ({ dataType }: AnalyticsProps) => {
     setDateRange(date)
   }
 
+  const handleExportPdf = useCallback(() => {
+    setIsExporting(true)
+    generatePDF(targetRef, options).finally(() => {
+      setIsExporting(false)
+    })
+  }, [])
+
   return (
     <>
-      {data.length > 0 ? <CountByDate dataType={dataType} /> : null}
-      <div className="flex items-center justify-between gap-x-6 bg-gray-100 py-2 px-8 rounded-tl-lg rounded-tr-lg">
-        <div className="inline-flex items-center gap-x-2">
-          <DateFilter onSelect={handleDateFilter} />
+      <div ref={targetRef}>
+        {data.length > 0 ? <CountByDate dataType={dataType} /> : null}
+        <div className="flex items-center justify-between gap-x-6 bg-gray-100 py-2 px-8 rounded-tl-lg rounded-tr-lg">
+          <div className="inline-flex items-center gap-x-2">
+            <DateFilter onSelect={handleDateFilter} />
+          </div>
+          <div className="inline-flex items-center gap-x-2">
+            <TableActions
+              onReload={handleReload}
+              isLoading={isLoading}
+              onExport={handleExportPdf}
+              isExporting={isExporting}
+            />
+          </div>
         </div>
-        <div className="inline-flex items-center gap-x-2">
-          <TableActions onReload={handleReload} isLoading={isLoading} />
-        </div>
-      </div>
-      {data.length > 0 ? (
-        <>
-          {dataType === 'visits' && <VisitsTable data={data as IVisit[]} />}
-          {dataType === 'events' && <EventsTable data={data as IEvent[]} />}
-          {dataType === 'navigation' && (
-            <NavigationTable data={data as IEvent[]} />
-          )}
-          <Pagination
-            page={page}
-            onChange={handleChangePage}
-            meta={meta}
-            dataLength={data.length}
+        {data.length > 0 ? (
+          <>
+            {dataType === 'visits' && <VisitsTable data={data as IVisit[]} />}
+            {dataType === 'events' && <EventsTable data={data as IEvent[]} />}
+            {dataType === 'navigation' && (
+              <NavigationTable data={data as IEvent[]} />
+            )}
+            <Pagination
+              page={page}
+              onChange={handleChangePage}
+              meta={meta}
+              dataLength={data.length}
+            />
+          </>
+        ) : isLoading ? (
+          <div className="flex flex-col space-y-1">
+            {Array(PAGINATION.LIMIT)
+              .fill({})
+              .map((e, index) => (
+                <Skeleton
+                  key={`visit-skeleton-${index}`}
+                  className="h-16 w-full"
+                />
+              ))}
+          </div>
+        ) : (
+          <AlertInfo
+            title={`No ${dataType} Data Available`}
+            description="There is currently no visit data to display. Please try refreshing the page or check back later."
           />
-        </>
-      ) : isLoading ? (
-        <div className="flex flex-col space-y-1">
-          {Array(PAGINATION.LIMIT)
-            .fill({})
-            .map((e, index) => (
-              <Skeleton
-                key={`visit-skeleton-${index}`}
-                className="h-16 w-full"
-              />
-            ))}
-        </div>
-      ) : (
-        <AlertInfo
-          title={`No ${dataType} Data Available`}
-          description="There is currently no visit data to display. Please try refreshing the page or check back later."
-        />
-      )}
+        )}
+      </div>
     </>
   )
 }

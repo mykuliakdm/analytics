@@ -33,7 +33,7 @@ const Header = () => {
 
   return (
     <header>
-      <nav className="bg-white border-b border-gray-200 px-4 lg:px-6 py-2.5 dark:bg-gray-800">
+      <nav className="bg-white border-b border-gray-200 py-2.5 dark:bg-gray-800">
         <div className="mx-auto w-full max-w-screen-2xl px-2.5 md:px-20">
           <div className="flex flex-wrap justify-between items-center mx-auto">
             <Link
@@ -51,16 +51,18 @@ const Header = () => {
               <div className="relative flex items-center">
                 {user && status === 'authenticated' ? (
                   <div className="inline-flex items-center gap-x-2">
-                    <Button asChild variant="ghost">
-                      <Link href={`/projects/${user.id}`}>
-                        <FolderGit2 className="h-5 w-5" />
-                        Projects
-                      </Link>
-                    </Button>
+                    {user.id ? (
+                      <Button asChild variant="ghost">
+                        <Link href={`/projects`}>
+                          <FolderGit2 className="h-5 w-5" />
+                          Projects
+                        </Link>
+                      </Button>
+                    ) : null}
 
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
-                        <Avatar>
+                        <Avatar className="cursor-pointer">
                           <AvatarImage src={user.image!} />
                           <AvatarFallback>
                             {getInitials(user.name)}
