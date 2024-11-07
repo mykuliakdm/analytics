@@ -23,7 +23,7 @@ const ProjectData = ({ project }: { project: IProject }) => {
       <div className="flex w-full items-center space-x-2 mt-4">
         <Input
           type="text"
-          defaultValue={`<script src="https://cdn.jsdelivr.net/gh/artemats/analytics/scripts/analytics-1.0.5.js?id=${project._id}"></script>`}
+          defaultValue={`<script src="https://cdn.jsdelivr.net/gh/artemats/analytics/public/scripts/analytics-1.0.5.js?id=${project._id}"></script>`}
         />
         <Button type="submit">Copy</Button>
       </div>

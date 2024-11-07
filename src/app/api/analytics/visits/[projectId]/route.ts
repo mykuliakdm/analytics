@@ -33,14 +33,14 @@ export async function GET(
     if (from) {
       filters.createdAt = {
         ...filters.createdAt,
-        $gte: startOfDay(addDays(from, 1)),
+        $gte: startOfDay(from),
       }
     }
 
     if (to) {
       filters.createdAt = {
         ...filters.createdAt,
-        $lte: endOfDay(addDays(to, 1)),
+        $lte: endOfDay(to),
       }
     }
   }
