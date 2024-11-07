@@ -20,8 +20,8 @@ export async function GET() {
       ],
       dateRanges: [
         {
-          startDate: '2020-09-01',
-          endDate: '2020-09-15',
+          startDate: '2024-11-06',
+          endDate: '2024-11-07',
         },
       ],
     })

@@ -33,7 +33,7 @@ export default async function ProjectPage({
   const project = await Project.findOne({ _id: id })
   return (
     <>
-      <ProjectData project={project} />
+      <ProjectData project={JSON.stringify(project)} />
       <ProjectNavigation nav={nav} projectId={id} />
       <Analytics dataType={dataType} />
     </>

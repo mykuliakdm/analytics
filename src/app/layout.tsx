@@ -4,6 +4,7 @@ import { getServerSession } from 'next-auth'
 import Header from '@/components/Header/Header'
 import SessionProvider from '@/providers/SessionProvider'
 import Container from '@/components/Container/Container'
+import { Toaster } from '@/components/ui/toaster'
 import './globals.css'
 
 export const metadata: Metadata = {
@@ -27,6 +28,7 @@ export default async function RootLayout({
           <main>
             <Container>{children}</Container>
           </main>
+          <Toaster />
         </body>
       </SessionProvider>
     </html>
