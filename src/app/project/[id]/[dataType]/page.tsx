@@ -29,7 +29,7 @@ export default async function ProjectPage({
 }) {
   return (
     <>
-      <ProjectData id={id} />
+      {/*<ProjectData id={id} />*/}
       <ProjectNavigation nav={nav} projectId={id} />
       <Analytics dataType={dataType} />
     </>
