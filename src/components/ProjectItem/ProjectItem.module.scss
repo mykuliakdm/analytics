@@ -1,0 +1,15 @@
+.project{
+	
+		&-row{
+			display: flex;
+			align-items: center;
+			
+				&-box{
+					flex: 1;
+				}
+		}
+	
+		&-title{
+		
+		}
+}
