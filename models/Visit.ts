@@ -6,6 +6,7 @@ const visitSchema = new mongoose.Schema(
     projectId: { type: String, required: true },
     time: { type: Number, required: true },
     href: { type: String, required: true },
+    pageTitle: { type: String },
     ip: { type: String },
     screenSize: { type: String },
     timestamp: { type: Number, required: true },

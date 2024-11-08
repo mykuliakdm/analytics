@@ -74,22 +74,24 @@ const NavigationTable = ({ data }: NavigationTableProps) => {
               <TableCell>{nav.ip}</TableCell>
               <TableCell>
                 <Tooltip>
-                  <div className="flex items-center justify-between">
-                    <span>
-                      {nav.currentHref.length >= 20 ? (
-                        <TooltipTrigger>
-                          <Info className="w-4 h-4 mr-2" />
-                        </TooltipTrigger>
-                      ) : null}
-                      <span className="whitespace-nowrap max-w-32 overflow-hidden overflow-ellipsis inline-block">
-                        {nav.currentHref}
-                      </span>
+                  <TooltipTrigger>
+                    <span className="whitespace-nowrap max-w-32 overflow-hidden overflow-ellipsis inline-block">
+                      {nav.currentHref}
                     </span>
-                    <MoveRight className="w-4 h-4 ml-6 text-gray-700" />
-                  </div>
+                  </TooltipTrigger>
                   <TooltipContent>
-                    <span className="font-medium">Full URL:</span>{' '}
-                    <span className="text-gray-700">{nav.currentHref}</span>
+                    <div className="flex flex-col">
+                      <div className="inline-flex gap-x-1">
+                        <span className="font-medium">Full URL:</span>{' '}
+                        <span className="text-gray-700">{nav.currentHref}</span>
+                      </div>
+                      {nav.pageTitle ? (
+                        <div className="inline-flex gap-x-1">
+                          <span className="font-medium">Page:</span>{' '}
+                          <span className="text-gray-700">{nav.pageTitle}</span>
+                        </div>
+                      ) : null}
+                    </div>
                   </TooltipContent>
                 </Tooltip>
               </TableCell>

@@ -3,12 +3,15 @@ import { format } from 'date-fns'
 import {
   ChartConfig,
   ChartContainer,
+  ChartLegend,
+  ChartLegendContent,
   ChartTooltip,
   ChartTooltipContent,
 } from '@/components/ui/chart'
 import { useEffect, useState } from 'react'
 import { getAPI } from '@/utils/fetching/getAPI'
 import { useParams } from 'next/navigation'
+import { dataTypeProps } from '@/utils/types'
 
 const chartConfig: ChartConfig = {
   count: {
@@ -22,8 +25,15 @@ type dataProps = {
 }
 
 type CountByDateProps = {
-  dataType: 'visits' | 'events' | 'navigation'
+  dataType: dataTypeProps
 }
+
+const titles = {
+  visits: 'Visits',
+  events: 'Events',
+  navigation: 'Navigations made',
+  traffic: 'Users',
+} as { [key: string]: string }
 
 const CountByDate = ({ dataType = 'visits' }: CountByDateProps) => {
   const { id } = useParams()
@@ -78,7 +88,7 @@ const CountByDate = ({ dataType = 'visits' }: CountByDateProps) => {
   return (
     <div>
       <h4 className="scroll-m-20 text-xl font-semibold tracking-tight">
-        Total number of {dataType}: {length}
+        Total number of {titles[dataType]}: {length}
       </h4>
       <ChartContainer config={chartConfig} className="h-[300px] w-full">
         <LineChart accessibilityLayer data={data}>

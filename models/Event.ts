@@ -10,6 +10,7 @@ const eventSchema = new mongoose.Schema(
     userAgent: { type: String, required: true },
     type: { type: String, required: true },
     currentHref: { type: String, required: true },
+    pageTitle: { type: String },
     element: { type: String, required: true },
     details: {
       label: { type: String },

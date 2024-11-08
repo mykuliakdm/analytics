@@ -16,6 +16,7 @@ export interface IVisit {
   userAgent: string
   ip: string
   href: string
+  pageTitle?: string
   screenSize: string
   timestamp: number
   time: number
@@ -31,6 +32,7 @@ export interface IEvent {
   userAgent: string
   type: string
   currentHref: string
+  pageTitle?: string
   element: string
   details: {
     label: string
@@ -39,6 +41,34 @@ export interface IEvent {
     newHref: string
     name: string
     blank: boolean
+  }
+  _id: string
+}
+
+export interface ICustomer {
+  productId: string
+  ip: string
+  screenSize: string
+  timestamp: number
+  userAgent: string
+  language: string
+  href: string
+  pageTitle?: string
+  details?: {
+    status: string
+    country: string
+    countryCode: string
+    region: string
+    regionName: string
+    city: string
+    zip: string
+    lat: string
+    lon: string
+    timezone: string
+    isp: string
+    org: string
+    as: string
+    query: string
   }
   _id: string
 }
@@ -52,3 +82,5 @@ export interface IProjectNav {
 export interface IMeta {
   totalCount: number
 }
+
+export type dataTypeProps = 'visits' | 'events' | 'navigation' | 'traffic'

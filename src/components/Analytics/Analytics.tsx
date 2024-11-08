@@ -5,7 +5,7 @@ import dynamic from 'next/dynamic'
 import { useParams, usePathname, useSearchParams } from 'next/navigation'
 import { Skeleton } from '@/components/ui/skeleton'
 import AlertInfo from '@/components/AlertInfo/AlertInfo'
-import { IEvent, IMeta, IVisit } from '@/utils/types'
+import { dataTypeProps, ICustomer, IEvent, IMeta, IVisit } from '@/utils/types'
 import { PAGINATION } from '@/config/constants'
 import Pagination from '@/components/Pagination/Pagination'
 import { getAPI } from '@/utils/fetching/getAPI'
@@ -22,9 +22,13 @@ const CountByDate = dynamic(
   async () => import('@/components/charts/CountByDate/CountByDate'),
   { ssr: false },
 )
+const TrafficTable = dynamic(
+  async () => import('@/components/tables/TrafficTable/TrafficTable'),
+  { ssr: false },
+)
 
 type AnalyticsProps = {
-  dataType: 'visits' | 'events' | 'navigation'
+  dataType: dataTypeProps
 }
 
 const options: Options = {
@@ -56,7 +60,7 @@ const Analytics = ({ dataType }: AnalyticsProps) => {
   const [page, setPage] = useState<number>(
     Number(useSearchParams().get('page')) || 1,
   )
-  const [data, setData] = useState<IVisit[] | IEvent[]>([])
+  const [data, setData] = useState([])
   const [meta, setMeta] = useState<IMeta>({ totalCount: 0 })
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const [reload, setReload] = useState<boolean>(false)
@@ -124,7 +128,7 @@ const Analytics = ({ dataType }: AnalyticsProps) => {
   return (
     <>
       <div ref={targetRef}>
-        {data.length > 0 ? <CountByDate dataType={dataType} /> : null}
+        <CountByDate dataType={dataType} />
         <div className="flex items-center justify-between gap-x-6 bg-gray-100 py-2 px-8 rounded-tl-lg rounded-tr-lg">
           <div className="inline-flex items-center gap-x-2">
             <DateFilter onSelect={handleDateFilter} />
@@ -144,6 +148,9 @@ const Analytics = ({ dataType }: AnalyticsProps) => {
             {dataType === 'events' && <EventsTable data={data as IEvent[]} />}
             {dataType === 'navigation' && (
               <NavigationTable data={data as IEvent[]} />
+            )}
+            {dataType === 'traffic' && (
+              <TrafficTable data={data as ICustomer[]} />
             )}
             <Pagination
               page={page}

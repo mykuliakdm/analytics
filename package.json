@@ -38,6 +38,7 @@
     "react-day-picker": "^8.10.1",
     "react-dom": "^18",
     "react-hook-form": "^7.53.1",
+    "react-svg-worldmap": "^2.0.0-alpha.16",
     "react-tabs": "^6.0.2",
     "react-to-pdf": "^1.0.1",
     "recharts": "^2.13.3",

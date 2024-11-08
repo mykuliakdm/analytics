@@ -75,19 +75,26 @@ const VisitsTable = ({ data }: VisitsTableProps) => {
               <TableCell>{visit.ip}</TableCell>
               <TableCell>
                 <Tooltip>
-                  <div className="inline-flex">
-                    {visit.href.length >= 20 ? (
-                      <TooltipTrigger>
-                        <Info className="w-4 h-4 mr-2" />
-                      </TooltipTrigger>
-                    ) : null}
+                  <TooltipTrigger>
                     <span className="whitespace-nowrap max-w-32 overflow-hidden overflow-ellipsis inline-block">
                       {visit.href}
                     </span>
-                  </div>
+                  </TooltipTrigger>
                   <TooltipContent>
-                    <span className="font-medium">Full URL:</span>{' '}
-                    <span className="text-gray-700">{visit.href}</span>
+                    <div className="flex flex-col">
+                      <div className="inline-flex gap-x-1">
+                        <span className="font-medium">Full URL:</span>{' '}
+                        <span className="text-gray-700">{visit.href}</span>
+                      </div>
+                      {visit.pageTitle ? (
+                        <div className="inline-flex gap-x-1">
+                          <span className="font-medium">Page:</span>{' '}
+                          <span className="text-gray-700">
+                            {visit.pageTitle}
+                          </span>
+                        </div>
+                      ) : null}
+                    </div>
                   </TooltipContent>
                 </Tooltip>
               </TableCell>
