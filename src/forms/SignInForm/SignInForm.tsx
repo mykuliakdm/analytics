@@ -11,6 +11,7 @@ import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import { Label } from '@/components/ui/label'
 import { Loader2 } from 'lucide-react'
+import { useToast } from '@/hooks/use-toast'
 
 type Inputs = {
   email: string
@@ -20,6 +21,7 @@ type Inputs = {
 const SignInForm = () => {
   const router = useRouter()
   const { data: session } = useSession()
+  const { toast } = useToast()
   const [isLoading, setIsLoading] = useState<boolean>(false)
 
   const {
@@ -43,6 +45,13 @@ const SignInForm = () => {
         email: data.email,
         password: data.password,
         redirect: false,
+      }).then((response) => {
+        if (!response?.ok && response?.error) {
+          toast({
+            variant: 'destructive',
+            title: response.error,
+          })
+        }
       })
     } catch (error) {
       console.log('Error on sign in', error)
@@ -50,7 +59,7 @@ const SignInForm = () => {
       setIsLoading(false)
     }
   }
-  // TODO: detect fetch error
+
   return (
     <>
       <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl mb-8">

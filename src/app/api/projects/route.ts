@@ -28,7 +28,9 @@ export async function GET() {
 
     return NextResponse.json(
       {
-        error: 'User not found',
+        data: null,
+        error:
+          'Access Denied: You must be signed in to view the projects. Please log in to continue.',
       },
       {
         status: 400,

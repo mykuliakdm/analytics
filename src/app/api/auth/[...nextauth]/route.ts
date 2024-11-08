@@ -31,14 +31,14 @@ export const authOptions: NextAuthOptions = {
         })
 
         if (!user) {
-          throw new Error('User with this email does not exist')
+          throw new Error('User with this email does not exist.')
         }
 
         if (compareSync(credentials.password, user.password)) {
           return user
         }
 
-        throw new Error('Invalid email or password')
+        throw new Error('Invalid email or password.')
       },
     }),
   ],

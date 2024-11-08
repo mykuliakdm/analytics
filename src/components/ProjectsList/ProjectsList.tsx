@@ -18,10 +18,12 @@ import AlertInfo from '@/components/AlertInfo/AlertInfo'
 import { getAPI } from '@/utils/fetching/getAPI'
 import { PAGINATION } from '@/config/constants'
 import { Skeleton } from '@/components/ui/skeleton'
+import axios, { AxiosError } from 'axios'
 
 export default function ProjectsList() {
   const [projects, setProjects] = useState<IProject[]>([])
   const [isLoading, setIsLoading] = useState<boolean>(true)
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     let isMounted = true
@@ -34,7 +36,12 @@ export default function ProjectsList() {
           setProjects(data)
         }
       } catch (error) {
-        console.error('Failed to fetch projects: ', error)
+        if (axios.isAxiosError(error) && error.response) {
+          setError(error.response.data.error)
+        } else {
+          console.error('Unexpected error: ', error)
+          setError('Something went wrong.')
+        }
       } finally {
         if (isMounted) {
           setIsLoading(false)
@@ -105,10 +112,21 @@ export default function ProjectsList() {
     )
   }
 
+  if (error) {
+    return (
+      <>
+        <AlertInfo title="Unauthorized Access." description={error} />
+        <Button asChild>
+          <Link href="/sign-in">Sign in</Link>
+        </Button>
+      </>
+    )
+  }
+
   return (
     <AlertInfo
-      title="You don't have any projects yet"
-      description="To work with our app, you need to create a project"
+      title="You don't have any projects yet."
+      description="To work with our app, you need to create a project."
     />
   )
 }

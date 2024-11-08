@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import bcrypt from 'bcrypt'
 import db from '@/utils/db'
 import User from '../../../../models/User'
+import { getError } from '@/utils/getError'
 
 type dataType = {
   name: string
@@ -23,6 +24,7 @@ export async function POST(req: NextRequest) {
     if (existingUser) {
       return NextResponse.json(
         {
+          user: null,
           error: 'User with this email is already registered',
         },
         {
@@ -44,16 +46,16 @@ export async function POST(req: NextRequest) {
     return NextResponse.json(
       {
         user,
+        error: null,
       },
       {
         status: 201,
       },
     )
   } catch (error) {
-    console.error(error)
     return NextResponse.json(
       {
-        error: 'Failed to create a user',
+        error: getError(error as Error),
       },
       {
         status: 400,

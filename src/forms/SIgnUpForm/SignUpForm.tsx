@@ -1,15 +1,18 @@
 'use client'
 
+import { useState } from 'react'
+import { useRouter } from 'next/navigation'
+import { signIn } from 'next-auth/react'
+import axios from 'axios'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { schema } from '@/forms/SIgnUpForm/schema'
-import axios from 'axios'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import { Label } from '@/components/ui/label'
-import { useState } from 'react'
 import { Loader2 } from 'lucide-react'
+import { useToast } from '@/hooks/use-toast'
 
 type Inputs = {
   email: string
@@ -18,6 +21,8 @@ type Inputs = {
 }
 
 const SignUpForm = () => {
+  const router = useRouter()
+  const { toast } = useToast()
   const [isLoading, setIsLoading] = useState<boolean>(false)
 
   const {
@@ -31,16 +36,42 @@ const SignUpForm = () => {
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     setIsLoading(true)
     try {
-      await axios.post('/api/registration', { ...data }).then((response) => {
-        console.log('response', response)
-      })
+      await axios
+        .post('/api/registration', { ...data })
+        .then(async (response) => {
+          if (response.status === 201) {
+            await signIn('credentials', {
+              email: data.email,
+              password: data.password,
+              redirect: false,
+            }).then((response) => {
+              if (response?.ok && !response.error) {
+                router.push('/projects')
+              }
+            })
+          }
+        })
+        .catch((error) => {
+          if (axios.isAxiosError(error) && error.response) {
+            toast({
+              variant: 'destructive',
+              title: error.response.data.error,
+            })
+          } else {
+            console.error('Unexpected error: ', error)
+            toast({
+              variant: 'destructive',
+              title: 'Something went wrong.',
+            })
+          }
+        })
     } catch (error) {
       console.error(`Error on registration - ${error}`)
     } finally {
       setIsLoading(false)
     }
   }
-  // TODO: detect fetch error
+
   return (
     <>
       <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl mb-8">
