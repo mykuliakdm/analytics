@@ -18,6 +18,7 @@ import NavigationTable from '@/components/tables/NavigationTable/NavigationTable
 import generatePDF, { Resolution, Margin, Options } from 'react-to-pdf'
 import { format } from 'date-fns'
 import TrafficTable from '@/components/tables/TrafficTable/TrafficTable'
+import PopularElements from '@/components/charts/PopularElements/PopularElements'
 
 const CountByDate = dynamic(
   async () => import('@/components/charts/CountByDate/CountByDate'),
@@ -72,7 +73,6 @@ const Analytics = ({ dataType }: AnalyticsProps) => {
     setIsLoading(true)
     try {
       if (isMounted) {
-        // TODO: fix double fetch on reload
         const { data, meta } = await getAPI(
           `/api/analytics/${dataType}/${id}`,
           {
@@ -127,7 +127,10 @@ const Analytics = ({ dataType }: AnalyticsProps) => {
   return (
     <>
       <div ref={targetRef}>
-        <CountByDate dataType={dataType} />
+        <div className="flex">
+          <CountByDate dataType={dataType} />
+          {dataType === 'events' ? <PopularElements /> : null}
+        </div>
         <div className="flex items-center justify-between gap-x-6 bg-gray-100 py-2 px-8 rounded-tl-lg rounded-tr-lg">
           <div className="inline-flex items-center gap-x-2">
             <DateFilter onSelect={handleDateFilter} />

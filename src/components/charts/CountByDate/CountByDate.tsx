@@ -13,6 +13,7 @@ import { getAPI } from '@/utils/fetching/getAPI'
 import { useParams } from 'next/navigation'
 import { dataTypeProps } from '@/utils/types'
 import { Loader2 } from 'lucide-react'
+import { Skeleton } from '@/components/ui/skeleton'
 
 const chartConfig: ChartConfig = {
   count: {
@@ -90,7 +91,7 @@ const CountByDate = ({ dataType = 'visits' }: CountByDateProps) => {
   }, [dataType, id])
 
   return (
-    <div>
+    <div className="w-full">
       <h4 className="scroll-m-20 text-xl font-semibold tracking-tight flex items-center">
         Total number of {titles[dataType]}:{' '}
         {isLoading ? <Loader2 className="w-6 h-6 animate-spin ml-2" /> : length}

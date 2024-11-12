@@ -19,7 +19,7 @@ export async function GET(
     await db.connect()
 
     const events = await Events.find(filters)
-      .select('createdAt')
+      .select('createdAt element')
       .sort({ field: 'desc', createdAt: -1 })
       .lean()
 
