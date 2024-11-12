@@ -2,8 +2,8 @@
   // Визначаємо ID проекту, для якого будемо зберігати дані
   const ID = document.currentScript.src.split('id=')[1] || null
   let visitInterval
-  // const baseUrl = 'https://demo-analytics.vercel.app'
-  const baseUrl = 'http://localhost:3000'
+  const baseUrl = 'https://demo-analytics.vercel.app'
+  // const baseUrl = 'http://localhost:3000'
 
   /**************************************** Visit ****************************************/
 
