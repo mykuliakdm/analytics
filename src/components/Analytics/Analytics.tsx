@@ -17,14 +17,14 @@ import EventsTable from '@/components/tables/EventsTable/EventsTable'
 import NavigationTable from '@/components/tables/NavigationTable/NavigationTable'
 import generatePDF, { Resolution, Margin, Options } from 'react-to-pdf'
 import { format } from 'date-fns'
+import TrafficTable from '@/components/tables/TrafficTable/TrafficTable'
 
 const CountByDate = dynamic(
   async () => import('@/components/charts/CountByDate/CountByDate'),
-  { ssr: false },
-)
-const TrafficTable = dynamic(
-  async () => import('@/components/tables/TrafficTable/TrafficTable'),
-  { ssr: false },
+  {
+    ssr: false,
+    loading: () => <Skeleton className="w-full h-[300px] rounded-lg mb-2" />,
+  },
 )
 
 type AnalyticsProps = {
@@ -63,45 +63,44 @@ const Analytics = ({ dataType }: AnalyticsProps) => {
   const [data, setData] = useState([])
   const [meta, setMeta] = useState<IMeta>({ totalCount: 0 })
   const [isLoading, setIsLoading] = useState<boolean>(true)
-  const [reload, setReload] = useState<boolean>(false)
   const [dateRange, setDateRange] = useState<DateRange | undefined>(undefined)
   const [isExporting, setIsExporting] = useState<boolean>(false)
 
   const targetRef = useRef<HTMLDivElement | null>(null)
 
-  useEffect(() => {
-    let isMounted = true
+  const fetchData = async (isMounted: boolean) => {
     setIsLoading(true)
-    const fetchData = async () => {
-      try {
-        if (isMounted) {
-          // TODO: fix double fetch on reload
-          const { data, meta } = await getAPI(
-            `/api/analytics/${dataType}/${id}`,
-            {
-              page,
-              dateRange,
-            },
-          )
-          setData(data)
-          setMeta(meta)
-        }
-      } catch (error) {
-        console.error('Failed to fetch data: ', error)
-      } finally {
-        if (isMounted) {
-          setIsLoading(false)
-          setReload(false)
-        }
+    try {
+      if (isMounted) {
+        // TODO: fix double fetch on reload
+        const { data, meta } = await getAPI(
+          `/api/analytics/${dataType}/${id}`,
+          {
+            page,
+            dateRange,
+          },
+        )
+        setData(data)
+        setMeta(meta)
+      }
+    } catch (error) {
+      console.error('Failed to fetch data: ', error)
+    } finally {
+      if (isMounted) {
+        setIsLoading(false)
       }
     }
+  }
 
-    fetchData()
+  useEffect(() => {
+    let isMounted = true
+
+    fetchData(isMounted)
 
     return () => {
       isMounted = false
     }
-  }, [id, page, reload, dateRange, dataType])
+  }, [id, page, dateRange, dataType])
 
   const handleChangePage = (page: number) => {
     setPage(page)
@@ -109,9 +108,9 @@ const Analytics = ({ dataType }: AnalyticsProps) => {
   }
 
   const handleReload = () => {
-    // TODO: change page in URL also
+    window.history.replaceState(null, '', `${pathname}/?page=1`)
     setPage(1)
-    setReload(true)
+    fetchData(true)
   }
 
   const handleDateFilter = (date: DateRange | undefined) => {
@@ -152,12 +151,14 @@ const Analytics = ({ dataType }: AnalyticsProps) => {
             {dataType === 'traffic' && (
               <TrafficTable data={data as ICustomer[]} />
             )}
-            <Pagination
-              page={page}
-              onChange={handleChangePage}
-              meta={meta}
-              dataLength={data.length}
-            />
+            {dataType !== 'traffic' ? (
+              <Pagination
+                page={page}
+                onChange={handleChangePage}
+                meta={meta}
+                dataLength={data.length}
+              />
+            ) : null}
           </>
         ) : isLoading ? (
           <div className="flex flex-col space-y-1">

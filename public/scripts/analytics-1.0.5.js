@@ -2,6 +2,8 @@
   // Визначаємо ID проекту, для якого будемо зберігати дані
   const ID = document.currentScript.src.split('id=')[1] || null
   let visitInterval
+  // const baseUrl = 'https://demo-analytics.vercel.app'
+  const baseUrl = 'http://localhost:3000'
 
   /**************************************** Visit ****************************************/
 
@@ -32,7 +34,7 @@
       time += 5
       sendDataToDashboard(
         { id, time },
-        'http://localhost:3000/api/analytics/visits/update',
+        `${baseUrl}/api/analytics/visits/update`,
       )
     }, 5000)
 
@@ -44,10 +46,7 @@
 
   async function trackVisit() {
     const data = await visitData()
-    await sendDataToDashboard(
-      data,
-      'http://localhost:3000/api/analytics/visits/save',
-    )
+    await sendDataToDashboard(data, `${baseUrl}/api/analytics/visits/save`)
 
     await updateVisitTime(data.id)
   }
@@ -109,10 +108,7 @@
       }
 
       // Відправляємо дані події до API застосунку
-      await sendDataToDashboard(
-        data,
-        'http://localhost:3000/api/analytics/events/save',
-      )
+      await sendDataToDashboard(data, `${baseUrl}/api/analytics/events/save`)
     }
 
     return false
@@ -142,15 +138,16 @@
       ip: await getIPFromAmazon(),
       href: window.location.pathname,
       pageTitle: document.title,
+      session: {
+        referral: window.location.length > 1,
+        direct: window.location.length <= 1,
+      },
     }
   }
 
   async function trackUser() {
     const data = await userData()
-    await sendDataToDashboard(
-      data,
-      'http://localhost:3000/api/analytics/traffic/save',
-    )
+    await sendDataToDashboard(data, `${baseUrl}/api/analytics/traffic/save`)
   }
 
   trackUser()

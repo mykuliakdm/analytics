@@ -70,6 +70,10 @@ export interface ICustomer {
     as: string
     query: string
   }
+  session?: {
+    referral: boolean
+    direct: boolean
+  }
   _id: string
 }
 

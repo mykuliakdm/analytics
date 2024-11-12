@@ -26,6 +26,10 @@ const customerSchema = new mongoose.Schema(
       as: { type: String },
       query: { type: String },
     },
+    session: {
+      referral: { type: Boolean, required: true },
+      direct: { type: Boolean, required: true },
+    },
   },
   {
     timestamps: true,

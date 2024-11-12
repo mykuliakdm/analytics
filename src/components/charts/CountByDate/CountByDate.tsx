@@ -12,6 +12,7 @@ import { useEffect, useState } from 'react'
 import { getAPI } from '@/utils/fetching/getAPI'
 import { useParams } from 'next/navigation'
 import { dataTypeProps } from '@/utils/types'
+import { Loader2 } from 'lucide-react'
 
 const chartConfig: ChartConfig = {
   count: {
@@ -39,6 +40,7 @@ const CountByDate = ({ dataType = 'visits' }: CountByDateProps) => {
   const { id } = useParams()
   const [data, setData] = useState<dataProps[]>([])
   const [length, setLength] = useState<number>(0)
+  const [isLoading, setIsLoading] = useState<boolean>(true)
 
   useEffect(() => {
     let isMounted = true
@@ -75,6 +77,8 @@ const CountByDate = ({ dataType = 'visits' }: CountByDateProps) => {
         }
       } catch (error) {
         console.error('Failed to fetch data ', error)
+      } finally {
+        setIsLoading(false)
       }
     }
 
@@ -87,8 +91,9 @@ const CountByDate = ({ dataType = 'visits' }: CountByDateProps) => {
 
   return (
     <div>
-      <h4 className="scroll-m-20 text-xl font-semibold tracking-tight">
-        Total number of {titles[dataType]}: {length}
+      <h4 className="scroll-m-20 text-xl font-semibold tracking-tight flex items-center">
+        Total number of {titles[dataType]}:{' '}
+        {isLoading ? <Loader2 className="w-6 h-6 animate-spin ml-2" /> : length}
       </h4>
       <ChartContainer config={chartConfig} className="h-[300px] w-full">
         <LineChart accessibilityLayer data={data}>
