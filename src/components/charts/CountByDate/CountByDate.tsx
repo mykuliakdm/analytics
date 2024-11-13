@@ -3,8 +3,6 @@ import { format } from 'date-fns'
 import {
   ChartConfig,
   ChartContainer,
-  ChartLegend,
-  ChartLegendContent,
   ChartTooltip,
   ChartTooltipContent,
 } from '@/components/ui/chart'
@@ -13,7 +11,6 @@ import { getAPI } from '@/utils/fetching/getAPI'
 import { useParams } from 'next/navigation'
 import { dataTypeProps } from '@/utils/types'
 import { Loader2 } from 'lucide-react'
-import { Skeleton } from '@/components/ui/skeleton'
 
 const chartConfig: ChartConfig = {
   count: {

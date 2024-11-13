@@ -27,6 +27,13 @@ const CountByDate = dynamic(
     loading: () => <Skeleton className="w-full h-[300px] rounded-lg mb-2" />,
   },
 )
+const MostViewPages = dynamic(
+  async () => import('@/components/charts/MostViewPages/MostViewPages'),
+  {
+    ssr: false,
+    loading: () => <Skeleton className="h-[300px] rounded-lg mb-2" />,
+  },
+)
 
 type AnalyticsProps = {
   dataType: dataTypeProps
@@ -129,7 +136,11 @@ const Analytics = ({ dataType }: AnalyticsProps) => {
       <div ref={targetRef}>
         <div className="flex">
           <CountByDate dataType={dataType} />
-          {dataType === 'events' ? <PopularElements /> : null}
+          {dataType === 'events' ? (
+            <PopularElements />
+          ) : dataType === 'visits' ? (
+            <MostViewPages />
+          ) : null}
         </div>
         <div className="flex items-center justify-between gap-x-6 bg-gray-100 py-2 px-8 rounded-tl-lg rounded-tr-lg">
           <div className="inline-flex items-center gap-x-2">

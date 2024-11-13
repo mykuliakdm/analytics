@@ -2,6 +2,7 @@ import { ReactNode } from 'react'
 import type { Metadata } from 'next'
 import { getServerSession } from 'next-auth'
 import Header from '@/components/Header/Header'
+import Footer from '@/components/Footer/Footer'
 import SessionProvider from '@/providers/SessionProvider'
 import Container from '@/components/Container/Container'
 import { Toaster } from '@/components/ui/toaster'
@@ -25,9 +26,10 @@ export default async function RootLayout({
       <SessionProvider session={session}>
         <body>
           <Header />
-          <main>
+          <main className="min-h-[calc(100vh-246px)]">
             <Container>{children}</Container>
           </main>
+          <Footer />
           <Toaster />
         </body>
       </SessionProvider>

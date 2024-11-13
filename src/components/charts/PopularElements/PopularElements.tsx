@@ -8,6 +8,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from '@/components/ui/chart'
+import { Skeleton } from '@/components/ui/skeleton'
 
 const chartConfig = {
   value: {
@@ -71,27 +72,31 @@ const PopularElements = () => {
     }
   }, [id])
 
-  console.log(data)
-
   return (
-    <div className="min-w-[300px] pl-4">
-      <h4 className="scroll-m-20 text-xl font-semibold tracking-tight flex items-center">
-        Popular elements
-      </h4>
-      <ChartContainer config={chartConfig} className="h-[300px] w-full">
-        <BarChart accessibilityLayer data={data}>
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis
-            dataKey="element"
-            tickLine={false}
-            tickMargin={10}
-            axisLine={false}
-            tickFormatter={(value) => value}
-          />
-          <ChartTooltip content={<ChartTooltipContent />} />
-          <Bar dataKey="count" fill="#1e3a8a" radius={4} />
-        </BarChart>
-      </ChartContainer>
+    <div className="w-[360px] min-w-[360px] pl-4">
+      {isLoading ? (
+        <Skeleton className="w-full h-[300px] rounded-lg mb-2" />
+      ) : (
+        <>
+          <h4 className="scroll-m-20 text-xl font-semibold tracking-tight flex items-center">
+            Popular elements
+          </h4>
+          <ChartContainer config={chartConfig} className="h-[300px] w-full">
+            <BarChart accessibilityLayer data={data}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis
+                dataKey="element"
+                tickLine={false}
+                tickMargin={10}
+                axisLine={false}
+                tickFormatter={(value) => value}
+              />
+              <ChartTooltip content={<ChartTooltipContent />} />
+              <Bar dataKey="count" fill="#1e3a8a" radius={4} />
+            </BarChart>
+          </ChartContainer>
+        </>
+      )}
     </div>
   )
 }

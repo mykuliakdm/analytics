@@ -19,7 +19,7 @@ export async function GET(
     await db.connect()
 
     const visits = await Visits.find(filters)
-      .select('createdAt')
+      .select('createdAt href pageTitle time')
       .sort({ field: 'desc', createdAt: -1 })
       .lean()
 

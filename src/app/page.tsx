@@ -24,6 +24,7 @@ export default async function Home() {
           alt="Welcome to Your Trusted Analytics Hub"
           width={500}
           height={300}
+          style={{ objectFit: 'contain', objectPosition: 'center' }}
         />
       </div>
     </div>
