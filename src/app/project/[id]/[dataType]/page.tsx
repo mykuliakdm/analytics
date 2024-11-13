@@ -3,7 +3,7 @@ import ProjectNavigation from '@/components/ProjectNavigation/ProjectNavigation'
 import { dataTypeProps, IProjectNav } from '@/utils/types'
 import { Eye, Mouse, Footprints, TrafficCone } from 'lucide-react'
 import Analytics from '@/components/Analytics/Analytics'
-import Project from '../../../../../models/Projects'
+import Project from '../../../../../models/Project'
 import db from '@/utils/db'
 import {
   Breadcrumb,
@@ -48,6 +48,7 @@ export default async function ProjectPage({
 }) {
   await db.connect()
   const project = await Project.findOne({ _id: id })
+
   return (
     <>
       <Breadcrumb className="mb-8">

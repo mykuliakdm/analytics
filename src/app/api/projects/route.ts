@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import { getError } from '@/utils/getError'
 import db from '@/utils/db'
-import Projects from '../../../../models/Projects'
+import Projects from '../../../../models/Project'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/app/api/auth/[...nextauth]/route'
 
@@ -14,7 +14,9 @@ export async function GET() {
 
       const projects = await Projects.find({
         userId: session.user.id,
-      }).lean()
+      })
+        .sort({ field: 'asc', createdAt: -1 })
+        .lean()
 
       return NextResponse.json(
         {

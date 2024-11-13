@@ -1,6 +1,7 @@
 'use client'
 
 import { useCallback, useEffect, useState } from 'react'
+import axios from 'axios'
 import { format } from 'date-fns'
 import Link from 'next/link'
 import {
@@ -11,53 +12,65 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog'
 import { IProject } from '@/utils/types'
 import { Button } from '@/components/ui/button'
-import { Trash, Eye } from 'lucide-react'
+import { Trash, Eye, Pencil } from 'lucide-react'
 import AlertInfo from '@/components/AlertInfo/AlertInfo'
 import { getAPI } from '@/utils/fetching/getAPI'
 import { PAGINATION } from '@/config/constants'
 import { Skeleton } from '@/components/ui/skeleton'
-import axios, { AxiosError } from 'axios'
 
 export default function ProjectsList() {
   const [projects, setProjects] = useState<IProject[]>([])
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const [error, setError] = useState<string | null>(null)
 
-  useEffect(() => {
-    let isMounted = true
+  const fetchProjects = async (isMounted: boolean) => {
     setIsLoading(true)
-
-    const fetchProjects = async () => {
-      try {
-        if (isMounted) {
-          const { data } = await getAPI(`/api/projects`)
-          setProjects(data)
-        }
-      } catch (error) {
-        if (axios.isAxiosError(error) && error.response) {
-          setError(error.response.data.error)
-        } else {
-          console.error('Unexpected error: ', error)
-          setError('Something went wrong.')
-        }
-      } finally {
-        if (isMounted) {
-          setIsLoading(false)
-        }
+    try {
+      if (isMounted) {
+        const { data } = await getAPI(`/api/projects`)
+        setProjects(data)
+      }
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response) {
+        setError(error.response.data.error)
+      } else {
+        console.error('Unexpected error: ', error)
+        setError('Something went wrong.')
+      }
+    } finally {
+      if (isMounted) {
+        setIsLoading(false)
       }
     }
+  }
 
-    fetchProjects()
+  useEffect(() => {
+    let isMounted = true
+
+    fetchProjects(isMounted)
 
     return () => {
       isMounted = false
     }
   }, [])
 
-  const handleRemove = useCallback(() => {
-    console.log('Removing project')
+  const handleRemove = useCallback((projectId: string) => {
+    axios.get(`/api/project/${projectId}/delete`).then(({ status }) => {
+      if (status === 200) {
+        fetchProjects(true)
+      }
+    })
   }, [])
 
   if (projects && projects.length > 0) {
@@ -73,9 +86,9 @@ export default function ProjectsList() {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {projects.map((project) => (
+          {projects.map((project, index) => (
             <TableRow key={project._id}>
-              <TableCell>1</TableCell>
+              <TableCell>{index + 1}</TableCell>
               <TableCell>{project.name}</TableCell>
               <TableCell>{project.url}</TableCell>
               <TableCell>
@@ -88,9 +101,38 @@ export default function ProjectsList() {
                       <Eye />
                     </Link>
                   </Button>
-                  <Button variant="ghost" onClick={handleRemove}>
-                    <Trash />
+                  <Button variant="ghost" asChild>
+                    <Link href={`/projects/${project._id}/edit`}>
+                      <Pencil />
+                    </Link>
                   </Button>
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <Button variant="ghost">
+                        <Trash />
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent>
+                      <DialogHeader>
+                        <DialogTitle>Are you absolutely sure?</DialogTitle>
+                        <DialogDescription>
+                          This action cannot be undone. This will permanently
+                          remove your data from our servers.
+                        </DialogDescription>
+                      </DialogHeader>
+                      <div className="flex items-center justify-end gap-x-2">
+                        <DialogClose asChild>
+                          <Button variant="ghost">Cancel</Button>
+                        </DialogClose>
+                        <Button
+                          variant="outline"
+                          onClick={() => handleRemove(project._id)}
+                        >
+                          Yes, remove project
+                        </Button>
+                      </div>
+                    </DialogContent>
+                  </Dialog>
                 </div>
               </TableCell>
             </TableRow>

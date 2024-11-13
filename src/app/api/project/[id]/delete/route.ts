@@ -1,43 +1,37 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { getError } from '@/utils/getError'
+import db from '@/utils/db'
+import Projects from '../../../../../../models/Project'
 import { getServerSession } from 'next-auth/next'
 import { authOptions } from '@/app/api/auth/[...nextauth]/route'
-import db from '@/utils/db'
-import Project from '../../../../../models/Project'
-import { getError } from '@/utils/getError'
 
-type dataType = {
-  name: string
-  url: string
-  propertyId?: string
+type Params = {
+  id: string
 }
 
-export async function POST(req: NextRequest) {
+export async function GET(req: NextRequest, { params }: { params: Params }) {
   try {
-    const data: dataType = await req.json()
+    const { id } = params
     const session = await getServerSession(authOptions)
 
     if (session) {
       await db.connect()
 
-      const project = await new Project({
-        userId: session.user.id,
-        ...data,
-        google: {
-          propertyId: data.propertyId || '',
-          isConnected: false,
-        },
-      }).save()
+      await Projects.findOneAndDelete({
+        _id: id,
+      })
 
       return NextResponse.json(
         {
-          data: project,
+          data: null,
           error: null,
         },
         {
-          status: 201,
+          status: 200,
         },
       )
     }
+
     return NextResponse.json(
       {
         data: null,
@@ -48,7 +42,6 @@ export async function POST(req: NextRequest) {
       },
     )
   } catch (error) {
-    console.error(error)
     return NextResponse.json(
       {
         data: null,

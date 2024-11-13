@@ -7,31 +7,80 @@ import axios from 'axios'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
+import { IProject } from '@/utils/types'
+import { useMemo, useState } from 'react'
+import { useRouter } from 'next/navigation'
+import { useToast } from '@/hooks/use-toast'
+import { getError } from '@/utils/getError'
+import { Loader2 } from 'lucide-react'
 
 type Inputs = {
   name: string
   url: string
+  propertyId?: string
 }
 
-const ProjectCreateForm = () => {
+type ProjectCreateFormProps = {
+  title: string
+  data?: string
+}
+
+const defaultValues = {
+  name: '',
+  url: '',
+  propertyId: '',
+}
+
+const ProjectCreateForm = ({ title, data }: ProjectCreateFormProps) => {
+  const router = useRouter()
+  const { toast } = useToast()
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+
+  const project = useMemo(() => {
+    return data ? (JSON.parse(data!) as IProject) : null
+  }, [data])
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<Inputs>({
     resolver: yupResolver(schema),
+    defaultValues: project
+      ? {
+          name: project.name,
+          url: project.url,
+          propertyId: project.google?.propertyId || '',
+        }
+      : defaultValues,
   })
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    axios.post('/api/project/create', { ...data }).then((response) => {
-      console.log('Project created successfully, response: ', response)
-    })
+    setIsLoading(true)
+    const part = project ? `${project._id}/edit` : 'create'
+    axios
+      .post(`/api/project/${part}`, { ...data })
+      .then(({ data: { data }, status }) => {
+        if (status === 200 || (status === 201 && data)) {
+          // router.push(`/project/${data._id}/visits`)
+          router.push(`/projects`)
+        }
+      })
+      .catch((error) => {
+        toast({
+          variant: 'destructive',
+          title: getError(error as Error),
+        })
+      })
+      .finally(() => {
+        setIsLoading(false)
+      })
   }
 
   return (
     <>
       <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl mb-8">
-        New project
+        {title}
       </h1>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div>
@@ -52,7 +101,9 @@ const ProjectCreateForm = () => {
             </p>
           ) : null}
         </div>
-        <Button type="submit">Create project</Button>
+        <Button type="submit">
+          {isLoading ? <Loader2 className="animate-spin" /> : null}Save data
+        </Button>
       </form>
     </>
   )

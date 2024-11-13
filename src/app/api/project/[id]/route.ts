@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getError } from '@/utils/getError'
 import db from '@/utils/db'
-import Projects from '../../../../../models/Projects'
+import Projects from '../../../../../models/Project'
 
 type Params = {
   id: string
@@ -19,13 +19,22 @@ export async function GET(req: NextRequest, { params }: { params: Params }) {
 
     return NextResponse.json(
       {
-        project,
+        data: project,
+        error: null,
       },
       {
         status: 200,
       },
     )
   } catch (error) {
-    return NextResponse.json({ status: 500, message: getError(error as Error) })
+    return NextResponse.json(
+      {
+        data: null,
+        error: getError(error as Error),
+      },
+      {
+        status: 500,
+      },
+    )
   }
 }

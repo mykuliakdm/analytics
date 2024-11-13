@@ -4,5 +4,6 @@ export const schema = yup
   .object({
     name: yup.string().required('Name is required.'),
     url: yup.string().required('URL is required.'),
+    propertyId: yup.string(),
   })
   .required()

@@ -4,6 +4,10 @@ export interface IProject {
   name: string
   url: string
   userId: string
+  google?: {
+    propertyId?: string
+    isConnected: boolean
+  }
   createdAt: Date
   updatedAt: Date
   __v: string

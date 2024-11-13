@@ -5,6 +5,10 @@ const projectSchema = new mongoose.Schema(
     userId: { type: String, required: true },
     name: { type: String, required: true },
     url: { type: String, required: true },
+    google: {
+      propertyId: { type: String },
+      isConnected: { type: Boolean, required: true },
+    },
   },
   {
     timestamps: true,
