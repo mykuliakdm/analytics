@@ -11,7 +11,7 @@ const VisitDuration = ({ time }: { time: number }) => {
   }
 
   return (
-    <div className="d-inline-flex align-items-center">
+    <div className="d-inline-flex align-items-center whitespace-nowrap">
       {interval.days ? `${interval.days}d` : null}
       {interval.hours ? ` ${interval.hours}h` : null}
       {interval.minutes ? ` ${interval.minutes}m` : null}

@@ -62,7 +62,6 @@ const ProjectCreateForm = ({ title, data }: ProjectCreateFormProps) => {
       .post(`/api/project/${part}`, { ...data })
       .then(({ data: { data }, status }) => {
         if (status === 200 || (status === 201 && data)) {
-          // router.push(`/project/${data._id}/visits`)
           router.push(`/projects`)
         }
       })
@@ -98,6 +97,19 @@ const ProjectCreateForm = ({ title, data }: ProjectCreateFormProps) => {
           {errors.url?.message ? (
             <p className="mt-1 text-sm text-red-600 dark:text-red-500">
               {errors.url.message}
+            </p>
+          ) : null}
+        </div>
+        <div>
+          <Label htmlFor="url">GA property ID</Label>
+          <Input
+            {...register('propertyId')}
+            id="propertyID"
+            autoComplete="new-propertyId"
+          />
+          {errors.propertyId?.message ? (
+            <p className="mt-1 text-sm text-red-600 dark:text-red-500">
+              {errors.propertyId.message}
             </p>
           ) : null}
         </div>

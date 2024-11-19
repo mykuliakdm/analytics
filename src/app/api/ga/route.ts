@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import { getError } from '@/utils/getError'
-import { analyticsDataClient } from '@/lib/google/client'
+import { analyticsDataClient } from '@/lib/ga/client'
 
 const propertyId = process.env.GA_PROPERTY_ID
 
@@ -8,7 +8,16 @@ export async function GET() {
   try {
     const [response] = await analyticsDataClient.runReport({
       property: `properties/${propertyId}`,
+      dateRanges: [
+        {
+          startDate: `7daysAgo`, //👈  e.g. "7daysAgo" or "30daysAgo"
+          endDate: 'today',
+        },
+      ],
       dimensions: [
+        {
+          name: 'city',
+        },
         {
           name: 'country',
         },
@@ -17,16 +26,20 @@ export async function GET() {
         {
           name: 'activeUsers',
         },
-      ],
-      dateRanges: [
         {
-          startDate: '2024-11-10',
-          endDate: '2024-11-13',
+          name: 'eventCount',
+        },
+        {
+          name: 'newUsers',
+        },
+        {
+          name: 'totalRevenue',
+        },
+        {
+          name: 'sessions',
         },
       ],
     })
-
-    console.log('google ', response)
 
     return NextResponse.json(
       {
@@ -37,6 +50,9 @@ export async function GET() {
       },
     )
   } catch (error) {
-    return NextResponse.json({ status: 500, message: getError(error as Error) })
+    return NextResponse.json({
+      status: 500,
+      message: getError(error as Error),
+    })
   }
 }
