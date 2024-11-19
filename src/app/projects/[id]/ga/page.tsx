@@ -7,6 +7,7 @@ import {
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb'
 import Link from 'next/link'
+import GAPlate from '@/components/GAPlate/GAPlate'
 
 const ProjectGA = ({ params: { id } }: { params: { id: string } }) => {
   return (
@@ -30,7 +31,7 @@ const ProjectGA = ({ params: { id } }: { params: { id: string } }) => {
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
-      Project GA
+      <GAPlate projectId={id} />
     </>
   )
 }

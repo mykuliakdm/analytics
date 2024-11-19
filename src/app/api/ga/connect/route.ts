@@ -68,19 +68,19 @@ export async function GET(req: NextRequest) {
           },
         )
       }
+    } else {
+      // return default state
+      return NextResponse.json(
+        {
+          data: null,
+          success: false,
+          error: `We were unable to connect Google Analytics to ${project.name}. Please try connecting later.`,
+        },
+        {
+          status: 500,
+        },
+      )
     }
-
-    // return default state
-    return NextResponse.json(
-      {
-        data: null,
-        success: false,
-        error: `We were unable to connect Google Analytics to ${project.name}. Please try connecting later.`,
-      },
-      {
-        status: 500,
-      },
-    )
   } catch (error) {
     return NextResponse.json(
       {

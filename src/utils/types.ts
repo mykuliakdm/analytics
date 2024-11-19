@@ -92,3 +92,39 @@ export interface IMeta {
 }
 
 export type dataTypeProps = 'visits' | 'events' | 'navigation' | 'traffic'
+
+export interface IGAData {
+  dimensionHeaders: { name: string }[]
+  metricHeaders: {
+    name: string
+    type: string
+  }[]
+  rows: {
+    dimensionValues: {
+      value: string
+      oneValue: string
+    }[]
+    metricValues: {
+      value: string
+      oneValue: string
+    }[]
+  }[]
+  totals: unknown[]
+  maximums: unknown[]
+  minimums: unknown[]
+  rowCount: number
+  metadata: {
+    samplingMetadatas: unknown[]
+    dataLossFromOtherRow: boolean
+    schemaRestrictionResponse: {
+      activeMetricRestrictions: unknown[]
+    }
+    _schemaRestrictionResponse: string
+    currencyCode: string
+    _currencyCode: string
+    timeZone: string
+    _timeZone: string
+  }
+  propertyQuota: string | null
+  kind: string
+}
