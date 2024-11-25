@@ -3,7 +3,7 @@ import { getError } from '@/utils/getError'
 import db from '@/utils/db'
 import Events from '../../../../../models/Event'
 import Visits from '../../../../../models/Visit'
-
+// TODO: change route to DELETE
 export async function GET(req: NextRequest) {
   const dataType = req.nextUrl.searchParams.get('dataType')
   const projectId = req.nextUrl.searchParams.get('projectId')

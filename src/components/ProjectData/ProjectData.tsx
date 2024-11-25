@@ -12,7 +12,7 @@ const ProjectData = ({ project: _project }: { project: string }) => {
   const project = JSON.parse(_project)
   const { toast } = useToast()
 
-  const src = `<script src="https://cdn.jsdelivr.net/gh/mykuliakdm/analytics/public/scripts/analytics-1.0.5.js?id=${project._id}"></script>`
+  const src = `<script async src="https://cdn.jsdelivr.net/gh/mykuliakdm/analytics/public/scripts/analytics-1.0.5.js?id=${project._id}"></script>`
 
   const handleCopy = useCallback(async () => {
     if ('clipboard' in navigator) {
