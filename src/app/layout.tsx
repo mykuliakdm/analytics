@@ -6,6 +6,7 @@ import Footer from '@/components/Footer/Footer'
 import SessionProvider from '@/providers/SessionProvider'
 import Container from '@/components/Container/Container'
 import { Toaster } from '@/components/ui/toaster'
+import NextTopLoader from 'nextjs-toploader'
 import './globals.css'
 
 export const metadata: Metadata = {
@@ -25,6 +26,7 @@ export default async function RootLayout({
     <html lang="en">
       <SessionProvider session={session}>
         <body>
+          <NextTopLoader color="#09090b" shadow="none" />
           <Header />
           <main className="min-h-[calc(100vh-246px)]">
             <Container>{children}</Container>
