@@ -12,8 +12,8 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
-import { getAPI } from '@/utils/fetching/getAPI'
 import { useParams } from 'next/navigation'
+import axios from 'axios'
 
 type TableActionsProps = {
   onReload: () => void
@@ -35,9 +35,13 @@ const TableActions = ({
 
   const handleClearData = useCallback(async () => {
     try {
-      const { success = false } = await getAPI('/api/analytics/reset', {
-        projectId: id as string,
-        dataType: dataType as string,
+      const {
+        data: { success = false },
+      } = await axios.delete('/api/analytics/reset', {
+        params: {
+          projectId: id as string,
+          dataType: dataType as string,
+        },
       })
       if (success) {
         onReload()

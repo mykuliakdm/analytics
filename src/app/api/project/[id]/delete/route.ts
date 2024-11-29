@@ -9,7 +9,7 @@ type Params = {
   id: string
 }
 
-export async function GET(req: NextRequest, { params }: { params: Params }) {
+export async function DELETE(req: NextRequest, { params }: { params: Params }) {
   try {
     const { id } = params
     const session = await getServerSession(authOptions)

@@ -80,7 +80,7 @@ export default function ProjectsList() {
   }, [])
 
   const handleRemove = useCallback((projectId: string) => {
-    axios.get(`/api/project/${projectId}/delete`).then(({ status }) => {
+    axios.delete(`/api/project/${projectId}/delete`).then(({ status }) => {
       if (status === 200) {
         fetchProjects(true)
       }
