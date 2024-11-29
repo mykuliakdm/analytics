@@ -8,7 +8,7 @@ import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
 import { IProject } from '@/utils/types'
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useToast } from '@/hooks/use-toast'
 import { getError } from '@/utils/getError'
@@ -22,7 +22,7 @@ type Inputs = {
 
 type ProjectCreateFormProps = {
   title: string
-  data?: string
+  data?: IProject
 }
 
 const defaultValues = {
@@ -31,14 +31,13 @@ const defaultValues = {
   propertyId: '',
 }
 
-const ProjectCreateForm = ({ title, data }: ProjectCreateFormProps) => {
+const ProjectCreateForm = ({
+  title,
+  data: project,
+}: ProjectCreateFormProps) => {
   const router = useRouter()
   const { toast } = useToast()
   const [isLoading, setIsLoading] = useState<boolean>(false)
-
-  const project = useMemo(() => {
-    return data ? (JSON.parse(data!) as IProject) : null
-  }, [data])
 
   const {
     register,
