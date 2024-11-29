@@ -93,7 +93,7 @@ const MostViewPages = () => {
   }, [id])
 
   return (
-    <div className="w-[360px] min-w-[360px] pl-4">
+    <div className="w-full lg:w-[360px] min-w-[360px] pl-4">
       {isLoading ? (
         <Skeleton className="w-full h-[300px] rounded-lg mb-2" />
       ) : (

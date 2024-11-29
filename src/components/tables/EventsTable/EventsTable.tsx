@@ -43,37 +43,37 @@ const EventsTable = ({ data }: EventsTableProps) => {
             <TableHead>IP</TableHead>
             <TableHead>
               <span className="inline-flex items-center gap-x-1">
-                <MousePointerClick className="w-4 h-4" />
+                <MousePointerClick className="w-4 h-4 min-w-4" />
                 Type
               </span>
             </TableHead>
             <TableHead>
               <span className="inline-flex items-center gap-x-1">
-                <Atom className="w-4 h-4" />
+                <Atom className="w-4 h-4 min-w-4" />
                 Element
               </span>
             </TableHead>
             <TableHead>
               <span className="inline-flex items-center gap-x-1">
-                <LinkIcon className="w-4 h-4" />
+                <LinkIcon className="w-4 h-4 min-w-4" />
                 Page URL
               </span>
             </TableHead>
             <TableHead>
               <span className="inline-flex items-center gap-x-1">
-                <Calendar className="w-4 h-4" />
+                <Calendar className="w-4 h-4 min-w-4" />
                 Date/Time
               </span>
             </TableHead>
             <TableHead>
               <span className="inline-flex items-center gap-x-1">
-                <Monitor className="w-4 h-4" />
+                <Monitor className="w-4 h-4 min-w-4" />
                 Screen size
               </span>
             </TableHead>
             <TableHead>
               <span className="inline-flex items-center gap-x-1">
-                <Compass className="w-4 h-4" />
+                <Compass className="w-4 h-4 min-w-4" />
                 Browser
               </span>
             </TableHead>

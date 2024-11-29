@@ -11,7 +11,7 @@ type PaginationProps = {
 
 const Pagination = ({ meta, dataLength, page, onChange }: PaginationProps) => {
   return (
-    <div className="flex items-center justify-between gap-x-6 bg-gray-100 py-2 px-8 rounded-bl-lg rounded-br-lg">
+    <div className="flex flex-col-reverse md:flex-row items-center justify-between gap-x-6 bg-gray-100 py-2 px-2 md:px-8 gap-2 rounded-bl-lg rounded-br-lg">
       <span className="text-sm text-gray-700 dark:text-gray-400">
         Showing{' '}
         <span className="font-semibold text-gray-900 dark:text-white">

@@ -7,10 +7,10 @@ const Footer = () => {
     <footer className="bg-white">
       <Container>
         <div className="w-full">
-          <div className="sm:flex sm:items-center sm:justify-between">
+          <div className="flex items-center justify-between">
             <Link
               href="/"
-              className="flex items-center mb-4 sm:mb-0 space-x-3 rtl:space-x-reverse"
+              className="flex items-center sm:mb-0 space-x-3 rtl:space-x-reverse"
             >
               <Image
                 src="/logo.svg"
@@ -19,7 +19,7 @@ const Footer = () => {
                 alt="Web Analytics"
               />
             </Link>
-            <ul className="flex flex-wrap items-center mb-6 text-sm font-medium text-gray-500 sm:mb-0 dark:text-gray-400">
+            <ul className="flex flex-wrap items-center text-sm font-medium text-gray-500 dark:text-gray-400">
               <li>
                 <Link href="/projects" className="hover:underline me-4 md:me-6">
                   Projects

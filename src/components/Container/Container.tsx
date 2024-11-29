@@ -11,7 +11,7 @@ const Container: FC<ContainerProps> = ({ className, children }) => {
   return (
     <div
       className={classNames(
-        'mx-auto w-full max-w-screen-2xl px-2.5 md:px-20 py-8',
+        'mx-auto w-full max-w-screen-2xl px-2.5 lg:px-20 py-8',
         className,
       )}
     >

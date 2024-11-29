@@ -3,5 +3,14 @@
 		&-logo{
 			margin-top: -0.4rem;
 			margin-bottom: 0.4rem;
+			position: relative;
+			width: 200px;
+			height: 50px;
+			
+				@media (max-width: 575px) {
+					width: 150px;
+					height: 38px;
+					margin-bottom: 0.1rem;
+				}
 		}
 }

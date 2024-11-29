@@ -39,11 +39,11 @@ const DateFilter = ({ onSelect }: DateFilterProps) => {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="flex items-center gap-x-1"
+      className="flex items-center gap-x-1 w-full md:w-auto"
     >
       <Popover>
         <PopoverTrigger asChild>
-          <div className="relative">
+          <div className="relative w-full md:w-auto">
             <Input
               {...register('date')}
               id="date"

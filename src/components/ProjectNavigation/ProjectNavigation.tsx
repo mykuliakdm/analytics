@@ -16,7 +16,7 @@ const ProjectNavigation = ({ projectId, nav }: ProjectNavigationProps) => {
   return (
     <>
       <div className="flex items-center justify-between bg-indigo-100 p-4 rounded-lg my-4">
-        <div className="flex items-center gap-x-1">
+        <div className="flex items-center gap-x-1 flex-wrap md:flex-nowrap">
           {Object.entries(nav).map(([key, value]) => {
             const isActive = `/project/${projectId}/${value.slug}` === pathname
             return (

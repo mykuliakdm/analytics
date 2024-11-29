@@ -40,12 +40,7 @@ const Header = () => {
               href="/"
               className={classNames(styles['header-logo'], 'flex items-center')}
             >
-              <Image
-                src="/logo.svg"
-                width={200}
-                height={50}
-                alt="Web Analytics"
-              />
+              <Image src="/logo.svg" fill alt="Web Analytics" />
             </Link>
             <div className="flex items-center lg:order-2">
               <div className="relative flex items-center">

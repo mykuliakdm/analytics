@@ -20,7 +20,10 @@ type BarChartByCountProps = {
 
 const BarChartByCount = ({ data, dataKey, color }: BarChartByCountProps) => {
   return (
-    <ChartContainer config={chartConfig} className="h-[360px] w-[500px]">
+    <ChartContainer
+      config={chartConfig}
+      className="h-[360px] w-full xl:w-[500px]"
+    >
       <BarChart accessibilityLayer data={data}>
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis

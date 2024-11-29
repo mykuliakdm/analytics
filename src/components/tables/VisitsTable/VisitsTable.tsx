@@ -38,31 +38,31 @@ const VisitsTable = ({ data }: VisitsTableProps) => {
             <TableHead>IP</TableHead>
             <TableHead>
               <span className="inline-flex items-center gap-x-1">
-                <LinkIcon className="w-4 h-4" />
+                <LinkIcon className="w-4 h-4 min-w-4" />
                 Page URL
               </span>
             </TableHead>
             <TableHead>
               <span className="inline-flex items-center gap-x-1">
-                <Calendar className="w-4 h-4" />
+                <Calendar className="w-4 h-4 min-w-4" />
                 Date/Time start
               </span>
             </TableHead>
             <TableHead>
               <span className="inline-flex items-center gap-x-1">
-                <Timer className="w-4 h-4" />
+                <Timer className="w-4 h-4 min-w-4" />
                 Time spent
               </span>
             </TableHead>
             <TableHead>
               <span className="inline-flex items-center gap-x-1">
-                <Monitor className="w-4 h-4" />
+                <Monitor className="w-4 h-4 min-w-4" />
                 Screen size
               </span>
             </TableHead>
             <TableHead>
               <span className="inline-flex items-center gap-x-1">
-                <Compass className="w-4 h-4" />
+                <Compass className="w-4 h-4 min-w-4" />
                 Browser
               </span>
             </TableHead>

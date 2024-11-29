@@ -114,7 +114,7 @@ const TrafficTable = ({ data }: { data: ICustomer[] }) => {
       <h4 className="scroll-m-20 text-xl font-semibold tracking-tight mb-2">
         Users by country
       </h4>
-      <div className="flex gap-x-4">
+      <div className="flex flex-col xl:flex-row gap-4">
         <div className="relative rounded-lg border p-4 bg-background text-foreground">
           <div className="h-[360px]">
             <WorldMap
@@ -133,7 +133,7 @@ const TrafficTable = ({ data }: { data: ICustomer[] }) => {
           />
         </div>
         <div className="relative w-full rounded-lg border p-4 bg-background text-foreground">
-          <ul className="max-w-md divide-y divide-gray-200 dark:divide-gray-700">
+          <ul className="xl:max-w-md divide-y divide-gray-200 dark:divide-gray-700">
             {groupByCountry.map((item) => (
               <li className="py-2" key={item.country}>
                 <div className="flex items-center space-x-4 rtl:space-x-reverse">
@@ -152,9 +152,9 @@ const TrafficTable = ({ data }: { data: ICustomer[] }) => {
       <h4 className="scroll-m-20 text-xl font-semibold tracking-tight mb-2 mt-8">
         Users by city
       </h4>
-      <div className="flex gap-x-4">
+      <div className="flex flex-col xl:flex-row gap-4">
         <div className="relative w-full rounded-lg border p-4 bg-background text-foreground">
-          <ul className="max-w-md divide-y divide-gray-200 dark:divide-gray-700">
+          <ul className="xl:max-w-md divide-y divide-gray-200 dark:divide-gray-700">
             {groupByCity.map((item) => (
               <li className="py-2" key={item.city}>
                 <div className="flex items-center space-x-4 rtl:space-x-reverse">
@@ -183,7 +183,7 @@ const TrafficTable = ({ data }: { data: ICustomer[] }) => {
           <h3 className="scroll-m-20 text-lg font-semibold tracking-tight mb-4">
             Sessions
           </h3>
-          <ul className="max-w-md divide-y divide-gray-200 dark:divide-gray-700">
+          <ul className="xl:max-w-md divide-y divide-gray-200 dark:divide-gray-700">
             <li className="py-2">
               <div className="flex items-center space-x-4 rtl:space-x-reverse">
                 <div className="flex-1 min-w-0">
@@ -208,7 +208,7 @@ const TrafficTable = ({ data }: { data: ICustomer[] }) => {
           <div className="">
             <ChartContainer
               config={chartConfig}
-              className="h-[200px] w-[400px] mt-8"
+              className="h-[200px] w-full xl:w-[400px] mt-8"
             >
               <PieChart accessibilityLayer>
                 <Pie

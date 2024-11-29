@@ -37,31 +37,31 @@ const NavigationTable = ({ data }: NavigationTableProps) => {
             <TableHead>IP</TableHead>
             <TableHead>
               <span className="inline-flex items-center gap-x-1">
-                <Milestone className="w-4 h-4" />
+                <Milestone className="w-4 h-4 min-w-4" />
                 From
               </span>
             </TableHead>
             <TableHead>
               <span className="inline-flex items-center gap-x-1">
-                <Milestone className="w-4 h-4" />
+                <Milestone className="w-4 h-4 min-w-4" />
                 To
               </span>
             </TableHead>
             <TableHead>
               <span className="inline-flex items-center gap-x-1">
-                <Calendar className="w-4 h-4" />
+                <Calendar className="w-4 h-4 min-w-4" />
                 Date/Time
               </span>
             </TableHead>
             <TableHead>
               <span className="inline-flex items-center gap-x-1">
-                <Monitor className="w-4 h-4" />
+                <Monitor className="w-4 h-4 min-w-4" />
                 Screen size
               </span>
             </TableHead>
             <TableHead>
               <span className="inline-flex items-center gap-x-1">
-                <Compass className="w-4 h-4" />
+                <Compass className="w-4 h-4 min-w-4" />
                 Browser
               </span>
             </TableHead>

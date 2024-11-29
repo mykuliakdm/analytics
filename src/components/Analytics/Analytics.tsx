@@ -134,7 +134,7 @@ const Analytics = ({ dataType }: AnalyticsProps) => {
   return (
     <>
       <div ref={targetRef}>
-        <div className="flex">
+        <div className="flex flex-col lg:flex-row">
           <CountByDate dataType={dataType} />
           {dataType === 'events' ? (
             <PopularElements />
@@ -142,11 +142,11 @@ const Analytics = ({ dataType }: AnalyticsProps) => {
             <MostViewPages />
           ) : null}
         </div>
-        <div className="flex items-center justify-between gap-x-6 bg-gray-100 py-2 px-8 rounded-tl-lg rounded-tr-lg">
-          <div className="inline-flex items-center gap-x-2">
+        <div className="flex flex-col-reverse md:flex-row items-center justify-between gap-y-2 md:gap-y-0 md:gap-x-6 mg:gap-x-0 bg-gray-100 py-2 px-2 md:px-8 rounded-tl-lg rounded-tr-lg">
+          <div className="inline-flex items-center gap-x-2 w-full md:w-auto">
             <DateFilter onSelect={handleDateFilter} />
           </div>
-          <div className="inline-flex items-center gap-x-2">
+          <div className="inline-flex items-center gap-x-2 w-full md:w-auto">
             <TableActions
               onReload={handleReload}
               isLoading={isLoading}
