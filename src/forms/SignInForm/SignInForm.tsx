@@ -65,7 +65,11 @@ const SignInForm = () => {
       <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl mb-8">
         Sign In
       </h1>
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="space-y-4"
+        data-test-id="login-form"
+      >
         <div>
           <Label htmlFor="email">Email</Label>
           <Input {...register('email')} id="email" autoComplete="new-email" />

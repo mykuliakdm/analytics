@@ -8,7 +8,7 @@ type AlertInfoProps = {
 
 const AlertInfo = ({ title, description }: AlertInfoProps) => {
   return (
-    <Alert className="my-4">
+    <Alert className="my-4" data-test-id="alert">
       <TriangleAlert className="h-4 w-4" />
       <AlertTitle>{title}</AlertTitle>
       <AlertDescription>{description}</AlertDescription>

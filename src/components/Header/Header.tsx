@@ -55,7 +55,10 @@ const Header = () => {
 
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
-                        <Avatar className="cursor-pointer">
+                        <Avatar
+                          className="cursor-pointer"
+                          data-test-id="avatar"
+                        >
                           <AvatarImage src={user.image!} />
                           <AvatarFallback>
                             {getInitials(user.name)}

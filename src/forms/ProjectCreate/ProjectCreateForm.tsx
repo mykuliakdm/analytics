@@ -11,7 +11,6 @@ import { IProject } from '@/utils/types'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useToast } from '@/hooks/use-toast'
-import { getError } from '@/utils/getError'
 import { Loader2 } from 'lucide-react'
 
 type Inputs = {
@@ -67,7 +66,7 @@ const ProjectCreateForm = ({
       .catch((error) => {
         toast({
           variant: 'destructive',
-          title: getError(error as Error),
+          title: error.response.data.error,
         })
       })
       .finally(() => {
@@ -80,7 +79,11 @@ const ProjectCreateForm = ({
       <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl mb-8">
         {title}
       </h1>
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="space-y-4"
+        data-test-id="project-form"
+      >
         <div>
           <Label htmlFor="name">Project name</Label>
           <Input {...register('name')} id="name" autoComplete="new-name" />

@@ -90,7 +90,7 @@ export default function ProjectsList() {
   if (projects && projects.length > 0) {
     return (
       <TooltipProvider>
-        <Table>
+        <Table data-test-id="projects-table">
           <TableHeader>
             <TableRow>
               <TableHead>#</TableHead>
@@ -112,9 +112,15 @@ export default function ProjectsList() {
                 </TableCell>
                 <TableCell>
                   {project.google?.isConnected ? (
-                    <CircleCheck className="w-5 h-5 text-green-600 mx-auto" />
+                    <CircleCheck
+                      className="w-5 h-5 text-green-600 mx-auto"
+                      data-test-id="connected"
+                    />
                   ) : (
-                    <Circle className="w-5 h-5 text-gray-300 mx-auto" />
+                    <Circle
+                      className="w-5 h-5 text-gray-300 mx-auto"
+                      data-test-id="disconnected"
+                    />
                   )}
                 </TableCell>
                 <TableCell>
@@ -123,7 +129,11 @@ export default function ProjectsList() {
                     !project.google.isConnected ? (
                       <Tooltip>
                         <TooltipTrigger asChild>
-                          <Button variant="outline" asChild>
+                          <Button
+                            variant="outline"
+                            asChild
+                            data-test-id="ga-connect"
+                          >
                             <Link href={`/projects/${project._id}/ga/connect`}>
                               <Unplug />
                             </Link>
@@ -143,7 +153,11 @@ export default function ProjectsList() {
                       <Tooltip>
                         <TooltipTrigger asChild>
                           <span>
-                            <Button variant="outline" disabled>
+                            <Button
+                              variant="outline"
+                              disabled
+                              data-test-id="ga-connect"
+                            >
                               <Unplug />
                             </Button>
                           </span>
@@ -153,19 +167,23 @@ export default function ProjectsList() {
                         </TooltipContent>
                       </Tooltip>
                     )}
-                    <Button variant="outline" asChild>
+                    <Button
+                      variant="outline"
+                      asChild
+                      data-test-id="view-project"
+                    >
                       <Link href={`/project/${project._id}/visits`}>
                         <Eye />
                       </Link>
                     </Button>
-                    <Button variant="ghost" asChild>
+                    <Button variant="ghost" asChild data-test-id="edit-project">
                       <Link href={`/projects/${project._id}/edit`}>
                         <Pencil />
                       </Link>
                     </Button>
                     <Dialog>
                       <DialogTrigger asChild>
-                        <Button variant="ghost">
+                        <Button variant="ghost" data-test-id="delete-project">
                           <Trash />
                         </Button>
                       </DialogTrigger>

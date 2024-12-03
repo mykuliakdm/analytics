@@ -51,7 +51,7 @@ const GAConnector = ({ projectId }: GAConnectorProps) => {
   return (
     <>
       {error ? (
-        <Alert className="mb-4">
+        <Alert className="mb-4" data-test-id="alert">
           <Terminal className="h-4 w-4" />
           <AlertTitle>Some error!</AlertTitle>
           <AlertDescription>{error}</AlertDescription>
